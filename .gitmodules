@@ -1,3 +1,0 @@
-[submodule "af_backprop"]
-	path = af_backprop
-	url = https://github.com/effectsToCause/af_backprop
