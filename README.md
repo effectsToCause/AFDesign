@@ -1,4 +1,5 @@
 # AFDesign
+Alphafold based protein design: a simple python implementation of https://github.com/sokrypton/ColabDesign
 
 ### Setup
 First download libcudnn8 and libcudnn8-dev for OS and cuda version from here: https://developer.download.nvidia.com/compute/cuda/repos/
