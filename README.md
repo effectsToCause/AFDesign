@@ -3,8 +3,8 @@
 ### Setup
 First download libcudnn8 and libcudnn8-dev for OS and cuda version from here: https://developer.download.nvidia.com/compute/cuda/repos/
 
+Ubuntu:
 ```
-#ubuntu
 sudo dpkg -i  libcudnn8*.deb
 sudo dpkg -i libcudnn8-dev*.deb
 pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax dm-tree tensorflow tqdm matplotlib
