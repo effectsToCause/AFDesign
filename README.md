@@ -1,25 +1,12 @@
 # AfDesign
-### Google Colab
-<a href="https://colab.research.google.com/github/sokrypton/ColabDesign/blob/main/af/design.ipynb">
-  <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
-</a>
 
 ### setup
 ```bash
-git clone https://github.com/sokrypton/af_backprop.git
-pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol
-mkdir params
+pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax jaxlib dm-tree tensorflow tqdm matplotlib
 curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
-wget -qnc https://raw.githubusercontent.com/sokrypton/ColabFold/main/beta/colabfold.py
-wget -qnc https://raw.githubusercontent.com/sokrypton/ColabDesign/main/af/design.py
+conda install -c nvidia cudnn
 ```
-```python
-import numpy as np
-from IPython.display import HTML
-from design import mk_design_model, clear_mem
-import sys
-sys.path.append('af_backprop')
-```
+
 ### fixed backbone design
 For a given protein backbone, generate/design a new sequence that AlphaFold thinks folds into that conformation
 ```python
