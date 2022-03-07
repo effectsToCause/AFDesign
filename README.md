@@ -12,14 +12,14 @@ pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax dm-tree tens
 pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
 ```
-### fixed backbone design
+### Sequence hallucination (fixed backbone design)
 For a given protein backbone, generate/design a new sequence that AlphaFold thinks folds into that conformation
 ```python
 model = mk_design_model(protocol="fixbb")
 model.prep_inputs(pdb_filename="1TEN.pdb", chain="A")
 model.design_3stage()
 ```
-### hallucination
+### Protein hallucination
 For a given length, generate/hallucinate a protein sequence that AlphaFold thinks folds into a well structured 
 protein (high plddt, low pae, many contacts).
 ```python
@@ -27,7 +27,7 @@ model = mk_design_model(protocol="hallucination")
 model.prep_inputs(length=100, seq_init="gumbel")
 model.design_2stage()
 ```
-### binder hallucination
+### Binder hallucination
 For a given protein target and protein binder length, generate/hallucinate a protein binder sequence AlphaFold 
 thinks will bind to the target structure. To do this, we minimize PAE and maximize number of contacts at the 
 interface and within the binder, and we maximize pLDDT of the binder.
