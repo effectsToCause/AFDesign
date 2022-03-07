@@ -1,7 +1,8 @@
 import jax
 import jax.numpy as jnp
 import tensorflow as tf
-tf.config.set_visible_devices([], 'GPU')
+physical_devices = tf.config.list_physical_devices('GPU') 
+tf.config.set_visible_devices(physical_devices[1], 'GPU')
 
 import numpy as np
 from alphafold.common import protein
