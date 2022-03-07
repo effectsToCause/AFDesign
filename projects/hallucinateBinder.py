@@ -18,18 +18,19 @@ def get_pdb(pdb_code=""):
 		return f"{pdb_code}.pdb"
 ##########################
 
+pdbname=sys.argv[1]
+binderlength=int(sys.argv[2])
 clear_mem()
-model = mk_design_model(num_models=100,protocol="binder", model_parallel=True)
-
-model.prep_inputs(pdb_filename="pep.pdb", chain="A",binder_len=100) 
+model = mk_design_model(protocol="binder", model_parallel=False)
+model.prep_inputs(pdb_filename=pdbname, chain="A",binder_len=binderlength) 
 
 print("target_length",model._target_len)
 print("binder_length",model._binder_len)
 print("weights",model.opt["weights"])
 
 model.restart()
-model.opt["con_cutoff"] = 14.0
+model.opt["con_cutoff"] = 15.0
 model.opt["weights"].update({'msa_ent': 0.0, 'plddt': 0.0, 'pae_intra': 0.0, 'con_intra': 0.0,'pae_inter': 1.0, 'con_inter': 0.5})
-model.design_3stage(soft_iters=100, temp_iters=100, hard_iters=10)
+model.design_3stage(soft_iters=100, temp_iters=100, hard_iters=100)
 #model.get_seqs()
 model.save_pdb(f"{model.protocol}.pdb")
