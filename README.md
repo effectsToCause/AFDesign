@@ -12,6 +12,7 @@ pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax dm-tree tens
 pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
 ```
+### Projects
 ### Sequence hallucination (fixed backbone design)
 For a given protein backbone, generate/design a new sequence that AlphaFold thinks folds into that conformation
 ```python
