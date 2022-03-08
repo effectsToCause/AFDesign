@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #@title import libraries
 import sys
 sys.path.append('../')
@@ -20,11 +21,10 @@ def get_pdb(pdb_code=""):
 
 proteinlength=int(sys.argv[1])
 clear_mem()
-model = mk_design_model(protocol="hallucination", model_parallel=False)
+model = mk_design_model(num_models=5, model_mode="sample", num_recycles=3, recycle_mode="sample", protocol="hallucination", model_parallel=False)
 model.prep_inputs(length=proteinlength, seq_init="gumbel") 
-
+model.opt["weights"].update({'msa_ent': 0.01, 'plddt': 1.0, 'pae': 1.0, 'con': 1.0})
 print("weights",model.opt["weights"])
-
 model.restart()
 model.design_2stage()
 #model.get_seqs()
