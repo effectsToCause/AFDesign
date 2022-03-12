@@ -27,6 +27,7 @@ model.prep_inputs(pdb_filename=pdbname, chain="A",binder_len=binderlength)
 
 print("target_length",model._target_len)
 print("binder_length",model._binder_len)
+
 model.restart()
 model.opt["con_cutoff"] = 14.0
 model.opt["weights"].update({'msa_ent': 0.0, 'plddt': 0.1, 'pae_intra': 0.0, 'con_intra': 0.0,'pae_inter': 1.0, 'con_inter': 1.0})

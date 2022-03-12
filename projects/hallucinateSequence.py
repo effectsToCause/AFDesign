@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 #@title import libraries
 import sys
 sys.path.append('../')
@@ -6,13 +5,8 @@ sys.path.append('../')
 import os
 import numpy as np
 from design import mk_design_model, clear_mem
-#from alphafold.relax import relax
-
-#RELAX_MAX_ITERATIONS = 0
-#RELAX_ENERGY_TOLERANCE = 2.39
-#RELAX_STIFFNESS = 10.0
-#RELAX_EXCLUDE_RESIDUES = []
-#RELAX_MAX_OUTER_ITERATIONS = 3
+from alphafold.relax import relax
+from alphafold.common import protein
 
 #########################
 def get_pdb(pdb_code=""):
@@ -28,19 +22,16 @@ def get_pdb(pdb_code=""):
 
 pdbname=sys.argv[1]
 clear_mem()
-model = mk_design_model(num_models=5, model_mode="sample", num_recycles=3, recycle_mode="sample", protocol="fixbb", model_parallel=False)
+model = mk_design_model(num_models=5, model_mode="sample", num_recycles=1, recycle_mode="sample", protocol="fixbb", model_parallel=False)
 model.prep_inputs(pdb_filename=pdbname, chain="A") 
 
-print("weights",model.opt["weights"])
-
 model.restart()
-model.design_3stage(soft_iters=150, temp_iters=50, hard_iters=25)
+model.opt["weights"].update({'msa_ent': 0.0, 'dgram_cce': 0.1, 'fape': 0.0, 'pae': 1.0, 'plddt': 1.0})
+print("weights",model.opt["weights"])
+model.design_3stage(soft_iters=2, temp_iters=2, hard_iters=2)
 model.save_pdb(f"{model.protocol}.pdb")
-#relaxed_pdb_str, _, _ = amber_relaxer.process(prot=unrelaxed_protein)
-#relaxed_pdbs[model_name] = relaxed_pdb_str
-
-# Save the relaxed PDB.
-#relaxed_output_path = os.path.join(
-#	output_dir, f'relaxed_{model_name}.pdb')
-##f.write(relaxed_pdb_str)
-
+#with open("fixbb.pdb") as f: designedProt = protein.from_pdb_string(f.read())
+#amber_relaxer = relax.AmberRelaxation(max_iterations=0,tolerance=2.39,stiffness=10.0,exclude_residues=[],max_outer_iterations=20)
+#relaxed_pdb_lines, _, _ = amber_relaxer.process(prot=designedProt)            
+#with open("fixbb.min.pdb", 'w') as f:
+#	f.write(relaxed_pdb_lines)

@@ -3,14 +3,18 @@ Alphafold based protein design: a simple python implementation of https://github
 
 ### Setup
 First download libcudnn8 and libcudnn8-dev for OS and cuda version from here: https://developer.download.nvidia.com/compute/cuda/repos/
+Next install miniconda : https://docs.conda.io/en/latest/miniconda.html
 
 Ubuntu:
 ```
 sudo dpkg -i  libcudnn8*.deb
 sudo dpkg -i libcudnn8-dev*.deb
+curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
+conda activate
+conda install -c conda-forge openmm=7.5.1
+conda install -c omnia pdbfixer
 pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax dm-tree tensorflow tqdm matplotlib
 pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
-curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
 ```
 # Projects
 ### Sequence hallucination (fixed backbone design)
