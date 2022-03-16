@@ -4,7 +4,6 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parents[1]))
 
-
 import os
 import numpy as np
 from design import mk_design_model, clear_mem
