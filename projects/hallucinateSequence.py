@@ -1,6 +1,9 @@
+#!/usr/bin/python3
 #@title import libraries
 import sys
-sys.path.append('../')
+from pathlib import Path
+sys.path.append(str(Path(__file__).parents[1]))
+
 
 import os
 import numpy as np
