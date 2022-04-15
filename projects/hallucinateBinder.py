@@ -24,16 +24,16 @@ pdbname=sys.argv[1]
 binderlength=int(sys.argv[2])
 outputpdb=sys.argv[3]
 clear_mem()
-model = mk_design_model(num_models=5, model_mode="sample", num_recycles=3, recycle_mode="sample", protocol="binder", model_parallel=False)
+model = mk_design_model(num_models=5, model_mode="sample", num_recycles=2, recycle_mode="sample", protocol="binder", model_parallel=False)
 model.prep_inputs(pdb_filename=pdbname, chain="A",binder_len=binderlength) 
 
 print("target_length",model._target_len)
 print("binder_length",model._binder_len)
 
 model.restart()
-model.opt["con_cutoff"] = 14.0
-model.opt["weights"].update({'msa_ent': 0.0, 'plddt': 0.1, 'pae_intra': 0.0, 'con_intra': 0.0,'pae_inter': 1.0, 'con_inter': 1.0})
+#model.opt["con_cutoff"] = 14.0
+#model.opt["weights"].update({'msa_ent': 0.0, 'plddt': 0.1, 'pae_intra': 0.0, 'con_intra': 0.0,'pae_inter': 1.0, 'con_inter': 1.0})
 print("weights",model.opt["weights"])
-model.design_3stage(soft_iters=150, temp_iters=50, hard_iters=25)
-#model.get_seqs()
+model.design_3stage()
+model.get_seqs()
 model.save_pdb(f"{outputpdb}")

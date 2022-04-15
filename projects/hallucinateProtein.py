@@ -23,12 +23,13 @@ def get_pdb(pdb_code=""):
 proteinlength=int(sys.argv[1])
 outputpdb=sys.argv[2]
 clear_mem()
-model = mk_design_model(num_models=5, model_mode="sample", num_recycles=3, recycle_mode="sample", protocol="hallucination", model_parallel=False)
-model.prep_inputs(length=proteinlength, seq_init="gumbel") 
+model = mk_design_model(num_models=5, model_mode="sample", num_recycles=2, recycle_mode="sample", protocol="hallucination", model_parallel=False)
+model.prep_inputs(length=proteinlength) 
 
 model.restart()
-model.opt["weights"].update({'msa_ent': 0.01, 'plddt': 1.0, 'pae': 1.0, 'con': 1.0})
+model.opt["weights"].update({'helix': -1.0})
+#model.opt["con"].update({"cutoff":12.0,"seqsep":8})
 print("weights",model.opt["weights"])
-model.design_3stage(soft_iters=150, temp_iters=50, hard_iters=25)
-#model.get_seqs()
+model.design_3stage()
+model.get_seqs()
 model.save_pdb(f"{outputpdb}")

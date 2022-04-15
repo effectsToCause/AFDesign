@@ -25,13 +25,12 @@ def get_pdb(pdb_code=""):
 inputpdb=sys.argv[1]
 outputpdb=sys.argv[2]
 clear_mem()
-model = mk_design_model(num_models=5, num_recycles=2, recycle_mode="fixed", protocol="fixbb", model_parallel=False)
+model = mk_design_model(num_models=5, model_mode= "sample", num_recycles=2, recycle_mode="sample", protocol="fixbb", model_parallel=False)
 model.prep_inputs(pdb_filename=inputpdb, chain="A") 
-
 model.restart()
-model.opt["weights"].update({'msa_ent': 0.01, 'dgram_cce': 1.0, 'fape': 0.0, 'pae': 1.0, 'plddt': 1.0})
+#model.opt["weights"].update({"i_con":-1.0, "i_pae":0.0})
 print("weights",model.opt["weights"])
-model.design_3stage(soft_iters=200, temp_iters=200, hard_iters=100)
+model.design_3stage()
 model.save_pdb(f"{outputpdb}")
 #with open("fixbb.pdb") as f: designedProt = protein.from_pdb_string(f.read())
 #amber_relaxer = relax.AmberRelaxation(max_iterations=0,tolerance=2.39,stiffness=10.0,exclude_residues=[],max_outer_iterations=20)

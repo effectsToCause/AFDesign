@@ -32,6 +32,8 @@ if os.path.exists("bkg_prob.txt"):
   BKG_PROB[32] = BKG_PROB[32:].mean(0)
   BKG_PROB = BKG_PROB[:33]
 else:
+  dir=os.getcwd()
+  print(dir)
   print("ERROR 'bkg_prob.txt' not found")
   BKG_PROB = np.ones((32,64))
  
