@@ -1,8 +1,14 @@
 # AFDesign
 Alphafold based protein design: a simple python implementation of https://github.com/sokrypton/ColabDesign
 
+<<<<<<< HEAD
 ### Setup
 First download libcudnn8 and libcudnn8-dev for OS and cuda version from here: https://developer.download.nvidia.com/compute/cuda/repos/
+=======
+- [TrDesign](https://github.com/gjoni/trDesign/tree/master/02-GD) - using TrRosetta for design (support for TrMRF coming soon)
+- [AfDesign](https://github.com/sokrypton/ColabDesign/tree/beta/af) - using AlphaFold for design
+- [RfDesign](https://github.com/RosettaCommons/RFDesign) - using RoseTTAFold for design
+>>>>>>> d978d96d5ba9880de24e41caf32eea34e066492d
 
 Also install miniconda : https://docs.conda.io/en/latest/miniconda.html
 
