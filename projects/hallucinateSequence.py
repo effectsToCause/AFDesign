@@ -1,4 +1,4 @@
-#!/usr/bin/python3C
+#!/usr/bin/python3
 #@title import libraries
 import sys
 from pathlib import Path
@@ -6,6 +6,7 @@ sys.path.append(str(Path(__file__).parents[1]))
 
 import os
 import numpy as np
+from IPython.display import HTML
 from design import mk_design_model, clear_mem
 #from alphafold.relax import relax
 #from alphafold.common import protein
@@ -31,6 +32,7 @@ model.restart()
 model.opt["weights"].update({"pae":0.5})
 print("weights",model.opt["weights"])
 model.design_3stage()
+HTML(model.animate())
 model.save_pdb(f"{outputpdb}")
 #with open("fixbb.pdb") as f: designedProt = protein.from_pdb_string(f.read())
 #amber_relaxer = relax.AmberRelaxation(max_iterations=0,tolerance=2.39,stiffness=10.0,exclude_residues=[],max_outer_iterations=20)

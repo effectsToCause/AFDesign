@@ -30,20 +30,6 @@ import matplotlib
 from matplotlib import animation
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
-<<<<<<< HEAD
-
-# load background distogram distribution
-if os.path.exists("bkg_prob.txt"):
-  BKG_PROB = np.loadtxt("bkg_prob.txt")
-  BKG_PROB[32] = BKG_PROB[32:].mean(0)
-  BKG_PROB = BKG_PROB[:33]
-else:
-  dir=os.getcwd()
-  print(dir)
-  print("ERROR 'bkg_prob.txt' not found")
-  BKG_PROB = np.ones((32,64))
-=======
->>>>>>> sokrypton-beta
  
 #################################################
 # AF_INIT - input prep functions
@@ -608,8 +594,8 @@ class _af_design:
       #----------------------------------------
       # use gradients from last recycle
       #----------------------------------------
-      if self.args["use_init_pos"]:
-        self._inputs["init_pos"] = self._batch["all_atom_positions"][None]        
+      #if self.args["use_init_pos"]:
+       # self._inputs["init_pos"] = self._batch["all_atom_positions"][None]        
       if self.args["recycle_mode"] == "sample":
         # decide number of recycles to use
         key, _key = jax.random.split(key)
