@@ -1,7 +1,7 @@
 # AFDesign
 Alphafold based protein design: a straight python implementation of https://github.com/sokrypton/ColabDesign
 
-# Updates
+### Updates
 - **24Feb2022** - Refactoring code to allow homooligomeric hallucination/design and averaging gradients across recycles (which is now the default).
 Minor changes changes include renaming intra_pae/inter_con to pae/con and inter_pae/inter_con to i_pae/i_con for clarity.
 - **28Feb2022** - We find backprop through structure module to be unstable, all functions have been updated to only use distogram by default. The definition of contact has changed to minimize entropy within distance cutoff.
@@ -22,6 +22,8 @@ pip install git+https://github.com/sokrypton/ColabDesign.git@beta
 mkdir params
 curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
 ```
+
+# Projects
 
 ### Sequence hallucination
 For a given protein backbone, generate/design a new sequence that AlphaFold thinks folds into that conformation
