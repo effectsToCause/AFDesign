@@ -1,5 +1,12 @@
 # AFDesign
-Alphafold based protein design: a simple python implementation of https://github.com/sokrypton/ColabDesign
+Alphafold based protein design: a straight python implementation of https://github.com/sokrypton/ColabDesign
+
+# Updates
+- **24Feb2022** - Refactoring code to allow homooligomeric hallucination/design and averaging gradients across recycles (which is now the default).
+Minor changes changes include renaming intra_pae/inter_con to pae/con and inter_pae/inter_con to i_pae/i_con for clarity.
+- **28Feb2022** - We find backprop through structure module to be unstable, all functions have been updated to only use distogram by default. The definition of contact has changed to minimize entropy within distance cutoff.
+- **02May2022** - The `design.py` code has been split up into multiple python files under `src/`
+- **14May2022** - Adding support for partial hallucination (if you want to constrain one part and generate structure/sequence for rest).
 
 ### Setup
 First download libcudnn8 and libcudnn8-dev for OS and cuda version from here: https://developer.download.nvidia.com/compute/cuda/repos/
@@ -8,12 +15,15 @@ Ubuntu:
 ```
 sudo dpkg -i libcudnn8*.deb
 sudo dpkg -i libcudnn8-dev*.deb
+
+```bash
+pip install git+https://github.com/sokrypton/ColabDesign.git@beta
+
+mkdir params
 curl -fsSL https://storage.googleapis.com/alphafold/alphafold_params_2021-07-14.tar | tar x -C params
-pip -q install biopython dm-haiku==0.0.5 ml-collections py3Dmol jax dm-tree tensorflow tqdm matplotlib ipython
-pip install --upgrade "jax[cuda]" -f https://storage.googleapis.com/jax-releases/jax_releases.html
 ```
-# Projects
-### Sequence hallucination (fixed backbone design)
+
+### Sequence hallucination
 For a given protein backbone, generate/design a new sequence that AlphaFold thinks folds into that conformation
 ```python
 model = mk_design_model(protocol="fixbb")
@@ -25,8 +35,10 @@ For a given length, generate/hallucinate a protein sequence that AlphaFold think
 protein (high plddt, low pae, many contacts).
 ```python
 model = mk_design_model(protocol="hallucination")
-model.prep_inputs(length=100, seq_init="gumbel")
-model.design_2stage()
+model.restart(seq_init="gumbel")
+model.design(50, soft=True)
+model.restart(seq_init=model._outs["seq_pseudo"], keep_history=True)
+model.design_3stage(50,50,10)
 ```
 ### Binder hallucination
 For a given protein target and protein binder length, generate/hallucinate a protein binder sequence AlphaFold 
@@ -37,10 +49,15 @@ model = mk_design_model(protocol="binder")
 model.prep_inputs(pdb_filename="4MZK.pdb", chain="A", binder_len=19)
 model.design_3stage(soft_iters=100, temp_iters=100, hard_iters=10)
 ```
-# Updates
-- **24Feb2022** - Refactoring code to allow homooligomeric hallucination/design and averaging gradients across recycles (which is now the default).
-Minor changes changes include renaming intra_pae/inter_con to pae/con and inter_pae/inter_con to i_pae/i_con for clarity.
-- **28Feb2022** - We find backprop through structure module to be unstable, all functions have been updated to only use distogram by default.
+### Partial Sequence hallucination
+If you have a motif (binding motif, or functional motif) and you want to hallucinate a new scaffold around it,
+you can use partial hallucination.
+```python
+model = mk_design_model(protocol="partial")
+model.prep_inputs(pdb_filename="4MZK.pdb", chain="A", pos="1-10,11,20-25")
+# TODO
+```
+
 # FAQ
 #### Can I reuse the same model without needing to recompile?
 ```python
